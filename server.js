@@ -14,17 +14,6 @@ app.use(express.urlencoded({extended:true}));
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-/*
-// Lista de productos
-const productos = [
-    {
-        id: 1,
-        title: 'Calculadora',
-        price: 430,
-        thumbnail: 'aa'
-    }
-]; */
-
 // Lista de mensajes
 
 const messages = {
@@ -116,14 +105,8 @@ const chatSchema = new.schema.Entity('message', {
     author: user
 }, {idAttribute:'_id'});
 
-/*
-const mensajes = new schema.Entity('chat', {
-    author: user,
-    mensajes: [message]
-}, {idAttribute:'_id'}); */
-
 const normalizedData = normalize(messages, [chatSchema]);
-print(normalizedData); /// resultante del proceso de normalización. - tamaño menor que el objeto original
+print(normalizedData);
 console.log(JSON.stringify(normalizedData).length);
 
 
@@ -134,29 +117,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('mensaje-user', 'Hola mundo');
 
     // emit
-    socket.emit('products', productos);
     socket.emit('messages', normalizedData);
-
-    // products
-    /*
-    socket.on('new-product', function(data){
-        let myID = (productos.length)+1;
-
-        let myTitle = data.title;
-        let myPrice = data.price;
-        let myThumbnail = data.thumbnail;
-
-        const producto = {
-            id: myID, 
-            title: myTitle, 
-            price: myPrice, 
-            thumbnail: myThumbnail
-        }
-
-        productos.push(producto);
-
-        io.sockets.emit('products', productos);
-    })*/
 
     // message-center
 
